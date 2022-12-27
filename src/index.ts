@@ -6,14 +6,18 @@ import morgan from 'morgan';
 import { API_ROUTER } from './routes';
 
 import { corsOptions } from './config/cors';
+import databaseInit from './database/database';
 
-const PORT = process.env['PORT'] || 3001;
+const PORT = process.env['PORT']!;
 const app = express();
+
 
 /* Para endpoints-logs */
 app.use(morgan('combined'));
 
 app.use(express.json());
+
+databaseInit();
 
 API_ROUTER(app);
 
