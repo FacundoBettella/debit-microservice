@@ -3,10 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 
-import { API_ROUTER } from './routes';
+import { API_ROUTER } from './router';
 
 import { corsOptions } from './config/cors';
-import databaseInit from './database/database';
+// import databaseInit from './database/database';
 
 const PORT = process.env['PORT']!;
 const app = express();
@@ -17,7 +17,7 @@ app.use(morgan('combined'));
 
 app.use(express.json());
 
-databaseInit();
+// databaseInit();
 
 API_ROUTER(app);
 
