@@ -1,21 +1,11 @@
-import { Sequelize } from 'sequelize';
+import 'dotenv/config';
+import * as admin from "firebase-admin"
+import { applicationDefault } from "firebase-admin/app"
+import {getFirestore} from "firebase-admin/firestore"
 
-const usernameDb = process.env['usernameDb']!;
-const passwordDb = process.env['passwordDb']!;
-const nameDb = process.env['nameDb']!;
-const hostDb = process.env['hostDb']!;
-// const portDb = process.env['portDb']!;
 
-export default async function databaseInit() {
-  const sequelize = new Sequelize(nameDb, usernameDb, passwordDb, {
-    host: hostDb,
-    dialect: 'postgres',
-  });
+admin.initializeApp({
+  credential: applicationDefault()
+})
 
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established succesfully.');
-  } catch (err) {
-    console.log('Unable to connect to the database: ', err);
-  }
-}
+export const db = getFirestore()
