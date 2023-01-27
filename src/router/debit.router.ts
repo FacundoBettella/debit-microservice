@@ -12,6 +12,7 @@ debitRouter.get(
   '/get-all',
   /* ValidatorMiddleware(),*/
   (req: Request, res: Response, next: NextFunction) => {
+    console.log("|||||||||||")
     controller.findDebitsByUserId(req, res, next);
   }
 );
