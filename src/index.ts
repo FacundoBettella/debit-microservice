@@ -11,7 +11,6 @@ import { corsOptions } from './config/cors';
 const PORT = process.env['PORT']!;
 const app = express();
 
-
 /* Para endpoints-logs */
 app.use(morgan('combined'));
 

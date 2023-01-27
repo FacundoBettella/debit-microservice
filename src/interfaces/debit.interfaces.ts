@@ -14,11 +14,10 @@ export interface IDebitResponse extends IDebitRequest {
 }
 
 export interface IDebitService {
-  getAllUserDebits: (userId: number) => Promise<IDebitResponse[]>;
+  findDebitsByUserId: (userId: number) => Promise<IDebitResponse[]> | Promise<IDebitResponse>;
 
-  getUserDebit: (userId: number, debitId: number) => Promise<IDebitResponse>;
+  findDebitById: (userId: number, debitId: number) => Promise<IDebitResponse>;
 
   create: (user: IUser, debit: IDebitRequest) => Promise<IDebitResponse>;
 }
 
-export interface DebitMapper {}

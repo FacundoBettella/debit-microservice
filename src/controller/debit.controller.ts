@@ -1,27 +1,67 @@
 import { NextFunction, Request, Response } from 'express';
-import { DebitMapper, IDebitService } from '../interfaces';
+import { IDebitResponse, IDebitService } from '../interfaces';
 import { BaseController } from './base.controller';
+import HttpStatusCode from '../utils/HttpStatusCode';
 
-export class debitController extends BaseController{
-  // private service: IDebitService;
-  // private mapper: DebitMapper;
+export class DebitController extends BaseController {
 
-  // constructor(service: IDebitService, mapper: DebitMapper) {
-  //   super();
-  //   this.service = service;
-  //   this.mapper = mapper;
-  // }
+  private debitService: IDebitService;
 
-  // static async getAllUserDebits(req: Request, res: Response, next: NextFunction) {
-  //   try{
-  //     const { userId } = req.params;
-  //     const userDebits = await this.service.getAllUserDebits(userId);
+  constructor(service: IDebitService) {
+    super();
+    this.debitService = service;
+  }
 
-  //     this.response<>
+  async findDebitsByUserId(req: Request, res: Response, next: NextFunction) {
+    const { userId } = req.params;
+
+    try {
+      const userDebits = await this.debitService.findDebitsByUserId(
+        Number(userId)
+      );
+
+      this.response<IDebitResponse | IDebitResponse[]>({
+        res,
+        status: HttpStatusCode.OK,
+        data: userDebits,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async findDebitById(req: Request, res: Response, next: NextFunction) {
+    const { userId, debitId } = req.params;
+
+    try {
+      const debit = await this.debitService.findDebitById(Number(userId), Number(debitId));
+
+      this.response<IDebitResponse>({
+        res,
+        status: HttpStatusCode.OK,
+        data: debit,
+      });
+
+    } catch (err) {
+      next(err);
+    }
+  }
 
 
-  //   }
-  // }
+  async createDebit(req: Request, res: Response, next: NextFunction) {
+    const { user, debit } = req.body;
 
-  // static async getUserDebit() {}
+    try {
+      const newDebit = await this.debitService.create(user, debit);
+
+      this.response<IDebitResponse>({
+        res,
+        status: HttpStatusCode.OK,
+        data: newDebit,
+      });
+
+    } catch (err) {
+      next(err);
+    }
+  }
 }
